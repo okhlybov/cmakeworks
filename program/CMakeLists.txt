@@ -54,11 +54,6 @@ target_include_directories(${PROJECT_NAME} PRIVATE .)
 # Specify space-separated list of preprocessor macro definitions specified as -D command line arguments
 target_compile_definitions(${PROJECT_NAME} PRIVATE FOO=BAR)
 
-# Issue -DNDEBUG for non debugging builds
-if(NOT ${CMAKE_BUILD_TYPE} MATCHES Debug)
-	target_compile_definitions(${PROJECT_NAME} PRIVATE NDEBUG)
-endif()
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(CMakeWorks)
