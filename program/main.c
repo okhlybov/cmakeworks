@@ -10,6 +10,7 @@ extern int f_inc(int);
 int main(int argc, char** argv) {
     mpz_t t;
     mpz_init(t);
+    mpz_set_si(t, omp_get_num_threads());
     MPI_Init(&argc, &argv);
     printf("%d\n", c_inc(cxx_inc(f_inc(mpz_get_si(t)))));
     MPI_Finalize();

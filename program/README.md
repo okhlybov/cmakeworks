@@ -2,7 +2,7 @@
 
 ## Features
 
-- Build native Linux executable on either native Linux host or the [Windows Subsystem for Linux](https://docs.microsoft.com/ru-ru/windows/wsl/)
+- Build native Linux executable on either native Linux host or the [Windows Subsystem for Linux](https://docs.microsoft.com/windows/wsl/)
 
 - Build native Windows executable using [MSYS2](https://www.msys2.org/) & [MinGW](http://mingw-w64.org/) environments
 
