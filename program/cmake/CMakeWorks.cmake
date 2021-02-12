@@ -1,6 +1,8 @@
+#
 # Common CMake logic for use in CMakeWorks projects
 #
 # https://github.com/okhlybov/cmakeworks
+#
 
 # Set up default GCC-specific release compilation flags
 set(flags "-g -O3")
@@ -35,9 +37,6 @@ if(NOT "${PKG_CONFIG_MODULES}" STREQUAL "")
 	find_package(PkgConfig REQUIRED)
 endif()
 
-# Specify .mod files location inside the build directory
-set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY})
-
 # MPI cpecific compilation configuration
 if(${USE_MPI})
 	find_package(MPI REQUIRED)
@@ -55,8 +54,8 @@ endif()
 # Consume PkgConfig modules' command line flags
 foreach(PC ${PKG_CONFIG_MODULES})
 	pkg_check_modules(${PC} REQUIRED ${PC})
-	target_include_directories(${PROJECT_NAME} PRIVATE ${${PC}_INCLUDE_DIRS})
-	target_compile_options(${PROJECT_NAME} PRIVATE ${${PC}_CFLAGS_OTHER})
+	target_include_directories(${PROJECT_NAME} PUBLIC ${${PC}_INCLUDE_DIRS})
+	target_compile_options(${PROJECT_NAME} PUBLIC ${${PC}_CFLAGS_OTHER})
 	target_link_directories(${PROJECT_NAME} PUBLIC ${${PC}_LIBRARY_DIRS})
 	if(${USE_MODULE_STATIC_LINKING})
 		target_link_options(${PROJECT_NAME} PUBLIC ${${PC}_STATIC_LDFLAGS_OTHER})
@@ -77,16 +76,27 @@ if(${CMAKE_C_COMPILER_ID} MATCHES GNU)
 	endif()
 	# Set up OpenMP flags on demand
 	if(${USE_OPENMP})
-		target_compile_options(${PROJECT_NAME} PRIVATE -fopenmp)
+		target_compile_options(${PROJECT_NAME} PUBLIC -fopenmp)
 		target_link_options(${PROJECT_NAME} PUBLIC -fopenmp)
 	endif()
 endif()
 
+# Assume a target always has interface headers for export which are placed alongside the sources
+target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+
 get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
+
+if(Fortran IN_LIST languages)
+	# Specify the FORTRAN's .mod files location inside the build directory
+	# The .mod files are to be made publically visible
+	set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY})
+	target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_Fortran_MODULE_DIRECTORY})
+endif()
 
 # Link standard C libraries
 if(C IN_LIST languages)
 	if(${USE_MPI})
+		# target_include_directories(${PROJECT_NAME} PUBLIC ${MPI_C_INCLUDE_DIRS})
 		target_link_libraries(${PROJECT_NAME} MPI::MPI_C)
 	endif()
 endif()
@@ -94,7 +104,8 @@ endif()
 # Link standard C++ libraries
 if(CXX IN_LIST languages)
 	if(${USE_MPI})
-		target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
+	# target_include_directories(${PROJECT_NAME} PUBLIC ${MPI_CXX_INCLUDE_DIRS})
+	target_link_libraries(${PROJECT_NAME} MPI::MPI_CXX)
 	else()
 		if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
 			target_link_libraries(${PROJECT_NAME} stdc++)
@@ -105,7 +116,8 @@ endif()
 # Link standard FORTRAN libraries
 if(Fortran IN_LIST languages)
 	if(${USE_MPI})
-		target_link_libraries(${PROJECT_NAME} MPI::MPI_Fortran)
+	# target_include_directories(${PROJECT_NAME} PUBLIC ${MPI_Fortran_INCLUDE_DIRS})
+	target_link_libraries(${PROJECT_NAME} MPI::MPI_Fortran)
 	else()
 		if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
 			target_link_libraries(${PROJECT_NAME} gfortran quadmath)

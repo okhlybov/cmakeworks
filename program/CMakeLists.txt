@@ -1,3 +1,4 @@
+#
 # Sample multiplatform CMake project to build multilanguage (C/C++/FORTRAN) program
 # with optional MPI, OpenMP and PkgConfig support
 #
@@ -19,7 +20,7 @@ project(program LANGUAGES C CXX Fortran)
 
 # ****
 # Instruct to create a named executable from the space-separated list of source files which consitute the program
-add_executable(${PROJECT_NAME} main.c inc.c inc.cpp inc.f90)
+add_executable(${PROJECT_NAME} main.c inc.c inc.cpp inc.f90 add.f90)
 
 # ***
 # Set to the space-separated list of dependent PkgConfig modules
@@ -34,11 +35,11 @@ option(USE_STATIC_LINKING "Perform static linking of the executable" OFF)
 # ****
 # If set, instruct the build system to compile sources with MPI-aware compiler drivers
 # and to link against the appropriate libraries
-option(USE_MPI "Enable MPI support" ON)
+option(USE_MPI "Enable MPI support" OFF)
 
 # ****
 # If set, instruct the build system to emit OpenMP support flags
-option(USE_OPENMP "Enable OpenMP support" ON)
+option(USE_OPENMP "Enable OpenMP support" OFF)
 
 ### Advanced project configuration
 
@@ -46,14 +47,15 @@ option(USE_OPENMP "Enable OpenMP support" ON)
 # Enforce language-specific standards
 target_compile_features(${PROJECT_NAME} PRIVATE c_std_99 cxx_std_11)
 
-# **
+# *
 # Specify space-separated list of additional include directories specified as -I command line arguments
-target_include_directories(${PROJECT_NAME} PRIVATE .)
+# Current directory is considered to contain a public interface and hence is already included by the common code
+# target_include_directories(${PROJECT_NAME} PRIVATE .)
 
 # **
 # Specify space-separated list of preprocessor macro definitions specified as -D command line arguments
 target_compile_definitions(${PROJECT_NAME} PRIVATE FOO=BAR)
 
+# Slurp in the common logics code
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
 include(CMakeWorks)

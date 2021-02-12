@@ -1,4 +1,4 @@
-# Sample multiplatform multilanguage CMake program project
+# Sample multiplatform CMake project for multilanguage program
 
 ## Features
 
@@ -14,7 +14,7 @@
 
 - Static/dynamic linking
 
-- Optional support for [PkgConfig](https://www.freedesktop.org/wiki/Software/pkg-config/) modules
+- Optional support for external [PkgConfig](https://www.freedesktop.org/wiki/Software/pkg-config/) modules
 
 - Optional MPI support
 
