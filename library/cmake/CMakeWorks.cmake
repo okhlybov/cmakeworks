@@ -4,6 +4,14 @@
 # https://github.com/okhlybov/cmakeworks
 #
 
+# **
+# Default GCC-specific optimization flags
+set(gcc_release_flags "-pipe -O3")
+
+# **
+# Default GCC-specific debugging flags
+set(gcc_debug_flags "-pipe -g -Og -Wall -pedantic")
+
 # Set up default GCC-specific release compilation flags
 if(${CMAKE_C_COMPILER_ID} MATCHES GNU)
 	set(CMAKE_C_FLAGS_RELEASE ${gcc_release_flags})

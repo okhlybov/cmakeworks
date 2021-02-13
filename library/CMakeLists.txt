@@ -26,20 +26,18 @@ add_library(${PROJECT_NAME} ext.cpp ext.f90 add.f90)
 # Set to the space-separated list of dependent PkgConfig modules
 set(PKG_CONFIG_MODULES)
 
-# WARNING for changes to the options below to take effect, a project cleanup & reconfiguration is required
-
 # **
 # If set, accounts for static linking (forces setting the USE_MODULE_STATIC_LINKING option)
-option(USE_STATIC_LINKING "Perform static linking of the executable" OFF)
+set(USE_STATIC_LINKING OFF)
 
 # ****
 # If set, instruct the build system to compile sources with MPI-aware compiler drivers
 # and to link against the appropriate libraries
-option(USE_MPI "Enable MPI support" ON)
+set(USE_MPI ON)
 
 # ****
 # If set, instruct the build system to emit OpenMP support flags
-option(USE_OPENMP "Enable OpenMP support" ON)
+set(USE_OPENMP ON)
 
 ### Advanced project configuration
 
@@ -55,14 +53,6 @@ target_compile_features(${PROJECT_NAME} PRIVATE c_std_99 cxx_std_11)
 # **
 # Specify space-separated list of preprocessor macro definitions specified as -D command line arguments
 target_compile_definitions(${PROJECT_NAME} PRIVATE LIB_FOO=LIB_BAR)
-
-# **
-# Set GCC-specific optimization flags
-set(gcc_release_flags "-g -O3")
-
-# **
-# Set GCC-specific debugging flags
-set(gcc_debug_flags "-g -Og -Wall -pedantic")
 
 # Slurp in the common logics code
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
