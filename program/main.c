@@ -5,6 +5,8 @@
 #include "inc.hpp"
 extern int f_inc(int);
 
+#include "ext.hpp"
+
 int main(int argc, char** argv) {
     mpz_t t;
     mpz_init(t);

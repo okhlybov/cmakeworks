@@ -1,8 +1,8 @@
 #
-# Sample multiplatform CMake project to build multilanguage (C/C++/FORTRAN) program
+# Sample multiplatform CMake project to build multilanguage (C/C++/FORTRAN) library
 # with optional MPI, OpenMP and PkgConfig support
 #
-# https://github.com/okhlybov/cmakeworks/program
+# https://github.com/okhlybov/cmakeworks/library
 #
 
 # **** Asterisks indicate the level of importance for customization
@@ -16,22 +16,15 @@ cmake_minimum_required(VERSION 3.17) # Ninja Multi-Config
 # ****
 # Set to project name from which the executable name will be deduced
 # Specify languages the program is written in
-project(program LANGUAGES C CXX Fortran)
+project(library LANGUAGES C CXX Fortran)
 
 # ****
-# Instruct to create a named executable from the space-separated list of source files which consitute the program
-add_executable(${PROJECT_NAME} main.c inc.c inc.cpp inc.f90 add.f90)
-
-# ****
-# Link external CMake library subprojects
-# The following code block is to be cloned & taylored for each dependency
-set(dependency library)
-add_subdirectory(../${dependency} ${CMAKE_CURRRANT_BINARY_DIR}/${dependency})
-target_link_libraries(${PROJECT_NAME} PUBLIC ${dependency})
+# Instruct to create a named library from the space-separated list of source files
+add_library(${PROJECT_NAME} STATIC ext.cpp)
 
 # ***
 # Set to the space-separated list of dependent PkgConfig modules
-set(PKG_CONFIG_MODULES gmp)
+set(PKG_CONFIG_MODULES)
 
 # WARNING for changes to the options below to take effect, a project cleanup & reconfiguration is required
 
@@ -46,7 +39,7 @@ option(USE_MPI "Enable MPI support" OFF)
 
 # ****
 # If set, instruct the build system to emit OpenMP support flags
-option(USE_OPENMP "Enable OpenMP support" OFF)
+option(USE_OPENMP "Enable OpenMP support" ON)
 
 ### Advanced project configuration
 
@@ -61,7 +54,7 @@ target_compile_features(${PROJECT_NAME} PRIVATE c_std_99 cxx_std_11)
 
 # **
 # Specify space-separated list of preprocessor macro definitions specified as -D command line arguments
-target_compile_definitions(${PROJECT_NAME} PRIVATE EXE_FOO=EXE_BAR)
+target_compile_definitions(${PROJECT_NAME} PRIVATE LIB_FOO=LIB_BAR)
 
 # Slurp in the common logics code
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
