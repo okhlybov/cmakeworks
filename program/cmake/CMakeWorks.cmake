@@ -5,27 +5,25 @@
 #
 
 # Set up default GCC-specific release compilation flags
-set(flags "-g -O3")
 if(${CMAKE_C_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_C_FLAGS_RELEASE_INIT ${flags})
+	set(CMAKE_C_FLAGS_RELEASE ${gcc_release_flags})
 endif()
 if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_CXX_FLAGS_RELEASE_INIT ${flags})
+	set(CMAKE_CXX_FLAGS_RELEASE ${gcc_release_flags})
 endif()
 if(${CMAKE_Fortran_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_Fortran_FLAGS_RELEASE_INIT ${flags})
+	set(CMAKE_Fortran_FLAGS_RELEASE ${gcc_release_flags})
 endif()
 
 # Set up default GCC-specific debug compilation flags
-set(flags "-g -Og -Wall -pedantic")
 if(${CMAKE_C_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_C_FLAGS_DEBUG_INIT ${flags})
+	set(CMAKE_C_FLAGS_DEBUG ${gcc_debug_flags})
 endif()
 if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_CXX_FLAGS_DEBUG_INIT ${flags})
+	set(CMAKE_CXX_FLAGS_DEBUG ${gcc_debug_flags})
 endif()
 if(${CMAKE_Fortran_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_Fortran_FLAGS_DEBUG_INIT ${flags})
+	set(CMAKE_Fortran_FLAGS_DEBUG ${gcc_debug_flags})
 endif()
 
 include(CMakeDependentOption)
@@ -40,15 +38,6 @@ endif()
 # MPI cpecific compilation configuration
 if(${USE_MPI})
 	find_package(MPI REQUIRED)
-	if(DEFINED CMAKE_C_COMPILER AND DEFINED MPI_C_COMPILER)
-		set(CMAKE_C_COMPILER ${MPI_C_COMPILER})
-	endif()
-	if(DEFINED CMAKE_CXX_COMPILER AND DEFINED MPI_CXX_COMPILER)
-		set(CMAKE_CXX_COMPILER ${MPI_CXX_COMPILER})
-	endif()
-	if(DEFINED CMAKE_Fortran_COMPILER AND DEFINED MPI_Fortran_COMPILER)
-		set(CMAKE_Fortran_COMPILER ${MPI_Fortran_COMPILER})
-	endif()
 endif()
 
 # Consume PkgConfig modules' command line flags
@@ -89,7 +78,7 @@ get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 if(Fortran IN_LIST languages)
 	# Specify the FORTRAN's .mod files location inside the build directory
 	# The .mod files are to be made publically visible
-	set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY})
+	set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
 	target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_Fortran_MODULE_DIRECTORY})
 endif()
 

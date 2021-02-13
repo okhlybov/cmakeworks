@@ -20,7 +20,7 @@ project(library LANGUAGES C CXX Fortran)
 
 # ****
 # Instruct to create a named library from the space-separated list of source files
-add_library(${PROJECT_NAME} STATIC ext.cpp)
+add_library(${PROJECT_NAME} ext.cpp ext.f90 add.f90)
 
 # ***
 # Set to the space-separated list of dependent PkgConfig modules
@@ -35,7 +35,7 @@ option(USE_STATIC_LINKING "Perform static linking of the executable" OFF)
 # ****
 # If set, instruct the build system to compile sources with MPI-aware compiler drivers
 # and to link against the appropriate libraries
-option(USE_MPI "Enable MPI support" OFF)
+option(USE_MPI "Enable MPI support" ON)
 
 # ****
 # If set, instruct the build system to emit OpenMP support flags
@@ -55,6 +55,14 @@ target_compile_features(${PROJECT_NAME} PRIVATE c_std_99 cxx_std_11)
 # **
 # Specify space-separated list of preprocessor macro definitions specified as -D command line arguments
 target_compile_definitions(${PROJECT_NAME} PRIVATE LIB_FOO=LIB_BAR)
+
+# **
+# Set GCC-specific optimization flags
+set(gcc_release_flags "-g -O3")
+
+# **
+# Set GCC-specific debugging flags
+set(gcc_debug_flags "-g -Og -Wall -pedantic")
 
 # Slurp in the common logics code
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)

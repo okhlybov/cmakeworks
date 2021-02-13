@@ -6,6 +6,7 @@
 extern int f_inc(int);
 
 #include "ext.hpp"
+extern void f_ext();
 
 int main(int argc, char** argv) {
     mpz_t t;
@@ -13,4 +14,6 @@ int main(int argc, char** argv) {
     mpz_set_si(t, 1);
     printf("%d\n", c_inc(cxx_inc(f_inc(mpz_get_si(t)))));
     mpz_clear(t);
+    cxx_ext();
+    f_ext();
 }

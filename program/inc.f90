@@ -8,6 +8,6 @@ integer(c_int) function f_inc(i) result(r) bind(c)
     integer(c_int), value :: i
     print *, 'f_inc()'
     r = f_add(i, 1)
-end function
+end
 
-end module
+end

@@ -20,13 +20,13 @@ project(program LANGUAGES C CXX Fortran)
 
 # ****
 # Instruct to create a named executable from the space-separated list of source files which consitute the program
-add_executable(${PROJECT_NAME} main.c inc.c inc.cpp inc.f90 add.f90)
+add_executable(${PROJECT_NAME} main.c inc.c inc.cpp inc.f90)
 
 # ****
 # Link external CMake library subprojects
 # The following code block is to be cloned & taylored for each dependency
 set(dependency library)
-add_subdirectory(../${dependency} ${CMAKE_CURRRANT_BINARY_DIR}/${dependency})
+add_subdirectory(../${dependency} ${CMAKE_CURRENT_BINARY_DIR}/${dependency})
 target_link_libraries(${PROJECT_NAME} PUBLIC ${dependency})
 
 # ***
@@ -62,6 +62,14 @@ target_compile_features(${PROJECT_NAME} PRIVATE c_std_99 cxx_std_11)
 # **
 # Specify space-separated list of preprocessor macro definitions specified as -D command line arguments
 target_compile_definitions(${PROJECT_NAME} PRIVATE EXE_FOO=EXE_BAR)
+
+# **
+# Set GCC-specific optimization flags
+set(gcc_release_flags "-g -O3")
+
+# **
+# Set GCC-specific debugging flags
+set(gcc_debug_flags "-g -Og -Wall -pedantic")
 
 # Slurp in the common logics code
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
