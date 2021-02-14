@@ -9,7 +9,7 @@
 
 # *
 # Set up CMake compatibility level
-cmake_minimum_required(VERSION 3.17) # Ninja Multi-Config
+cmake_minimum_required(VERSION 3.16) # Ninja Multi-Config requires 3.17+
 
 ### Basic project setup
 
