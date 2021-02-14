@@ -4,34 +4,26 @@
 # https://github.com/okhlybov/cmakeworks
 #
 
-# **
-# Default GCC-specific optimization flags
-set(gcc_release_flags "-pipe -O3")
-
-# **
-# Default GCC-specific debugging flags
-set(gcc_debug_flags "-pipe -g -Og -Wall -pedantic")
-
 # Set up default GCC-specific release compilation flags
 if(${CMAKE_C_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_C_FLAGS_RELEASE ${gcc_release_flags})
+	set(CMAKE_C_FLAGS_RELEASE ${GNU_RELEASE_FLAGS})
 endif()
 if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_CXX_FLAGS_RELEASE ${gcc_release_flags})
+	set(CMAKE_CXX_FLAGS_RELEASE ${GNU_RELEASE_FLAGS})
 endif()
 if(${CMAKE_Fortran_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_Fortran_FLAGS_RELEASE ${gcc_release_flags})
+	set(CMAKE_Fortran_FLAGS_RELEASE ${GNU_RELEASE_FLAGS})
 endif()
 
 # Set up default GCC-specific debug compilation flags
 if(${CMAKE_C_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_C_FLAGS_DEBUG ${gcc_debug_flags})
+	set(CMAKE_C_FLAGS_DEBUG ${GNU_DEBUG_FLAGS})
 endif()
 if(${CMAKE_CXX_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_CXX_FLAGS_DEBUG ${gcc_debug_flags})
+	set(CMAKE_CXX_FLAGS_DEBUG ${GNU_DEBUG_FLAGS})
 endif()
 if(${CMAKE_Fortran_COMPILER_ID} MATCHES GNU)
-	set(CMAKE_Fortran_FLAGS_DEBUG ${gcc_debug_flags})
+	set(CMAKE_Fortran_FLAGS_DEBUG ${GNU_DEBUG_FLAGS})
 endif()
 
 include(CMakeDependentOption)

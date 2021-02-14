@@ -54,6 +54,14 @@ target_compile_features(${PROJECT_NAME} PRIVATE c_std_99 cxx_std_11)
 # Specify space-separated list of preprocessor macro definitions specified as -D command line arguments
 target_compile_definitions(${PROJECT_NAME} PRIVATE LIB_FOO=LIB_BAR)
 
+# *
+# Specify GCC-specific optimization flags
+set(GNU_RELEASE_FLAGS "-pipe -O3 -Wall -pedantic")
+
+# *
+# Specify GCC-specific debugging flags
+set(GNU_DEBUG_FLAGS "-pipe -g -Og -Wall -pedantic")
+
 # Slurp in the common logics code
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 include(CMakeWorks)
