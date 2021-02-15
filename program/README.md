@@ -58,7 +58,7 @@ In order to start a new CMake project (say, `myprog`) for the program with this 
 
 Now the basic configuration should be fairly complete.
 
-There are a few more optional features in the `CMakeLists.txt` to be considered
+- There are a few more optional features in the `CMakeLists.txt` to be considered
 
     - Preprocessor macro definitions with `target_compile_definitions(...)`
 
@@ -66,6 +66,6 @@ There are a few more optional features in the `CMakeLists.txt` to be considered
 
     - Language-agnostic optimizing & debugging GCC compilation options `GNU_*_FLAGS`
 
-These are likely to be left as is until a need arises.
+These are likely to be left as is until a real need arises.
 
-Finally there is a CMake code in the `cmake/CMakeWorks.cmake` which handles all the logic driving the project. Although this code can be modified as well, it is considered a very advanced topic and as such it is most likey to be left untouched.
+Finally there is a CMake code in the `cmake/CMakeWorks.cmake` file which handles all the logic driving the project. Although this code can be modified as well, it is considered a very advanced topic and as such it is most likey to be left untouched for a reason.
