@@ -24,10 +24,14 @@ add_executable(${PROJECT_NAME} main.c inc.c inc.cpp inc.f90)
 
 # ****
 # Link external CMake library subprojects
-# The following code block is to be cloned & taylored for each dependency
-set(dependency library)
-add_subdirectory(../${dependency} ${CMAKE_CURRENT_BINARY_DIR}/${dependency})
+set(dependency library) # Specify dependency name
+add_subdirectory(../${dependency} ${CMAKE_CURRENT_BINARY_DIR}/${dependency}) # Specify dependency location
 target_link_libraries(${PROJECT_NAME} PUBLIC ${dependency})
+
+# The code block is to be cloned & tailored for each present dependency
+# set(dependency library2) # Specify dependency name
+# add_subdirectory(../${dependency} ${CMAKE_CURRENT_BINARY_DIR}/${dependency}) # Specify dependency location
+# target_link_libraries(${PROJECT_NAME} PUBLIC ${dependency})
 
 # ***
 # Set to the space-separated list of dependent PkgConfig modules
