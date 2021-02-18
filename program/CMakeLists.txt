@@ -58,7 +58,7 @@ target_compile_features(${PROJECT_NAME} PRIVATE c_std_99 cxx_std_11)
 
 # *
 # Specify space-separated list of additional include directories specified as -I command line arguments
-# Current directory is considered to contain a public interface and hence is already included by the common code
+# Current directory is considered to contain a public interface and hence is already included by the CMakeWorks common code
 # target_include_directories(${PROJECT_NAME} PRIVATE .)
 
 # **
@@ -67,10 +67,12 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE EXE_FOO=EXE_BAR)
 
 # *
 # Specify GCC-specific optimization flags
+# Set it to empty string or comment it out to revert to default configuration behavior
 set(GNU_RELEASE_FLAGS "-pipe -O3 -Wall -pedantic")
 
 # *
 # Specify GCC-specific debugging flags
+# Set it to empty string or comment it out to revert to default configuration behavior
 set(GNU_DEBUG_FLAGS "-pipe -g -Og -Wall -pedantic")
 
 # Slurp in the common logics code

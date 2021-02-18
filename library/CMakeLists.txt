@@ -56,10 +56,12 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE LIB_FOO=LIB_BAR)
 
 # *
 # Specify GCC-specific optimization flags
+# Set it to empty string or comment it out to revert to default configuration behavior
 set(GNU_RELEASE_FLAGS "-pipe -O3 -Wall -pedantic")
 
 # *
 # Specify GCC-specific debugging flags
+# Set it to empty string or comment it out to revert to default configuration behavior
 set(GNU_DEBUG_FLAGS "-pipe -g -Og -Wall -pedantic")
 
 # Slurp in the common logics code
