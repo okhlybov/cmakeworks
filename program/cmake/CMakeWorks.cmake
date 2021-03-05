@@ -81,24 +81,24 @@ get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 
 if(Fortran IN_LIST languages)
 	# Specify the FORTRAN's .mod files location inside the build directory
-	# The .mod files are to be made publically visible
-	set(CMAKE_Fortran_MODULE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
-	target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_Fortran_MODULE_DIRECTORY})
+	if(${CMAKE_GENERATOR} STREQUAL "Ninja Multi-Config")
+		set(MOD_DIR ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE})
+	else()
+		set(MOD_DIR ${CMAKE_CURRENT_BINARY_DIR})
+	endif()
+	set_target_properties(${PROJECT_NAME} PROPERTIES Fortran_MODULE_DIRECTORY ${MOD_DIR})
+	target_include_directories(${PROJECT_NAME} PUBLIC ${MOD_DIR})
 endif()
 
-# Link standard C libraries
-if(C IN_LIST languages)
-	if(${USE_MPI})
+# Link in MPI language-specific libraries
+if(${USE_MPI})
+	if(C IN_LIST languages)
 		target_link_libraries(${PROJECT_NAME} PUBLIC MPI::MPI_C)
 	endif()
-endif()
-
-# Link standard C++ libraries
-if(CXX IN_LIST languages AND ${USE_MPI})
-	target_link_libraries(${PROJECT_NAME} PUBLIC MPI::MPI_CXX)
-endif()
-
-# Link standard FORTRAN libraries
-if(Fortran IN_LIST languages AND ${USE_MPI})
-	target_link_libraries(${PROJECT_NAME} PUBLIC MPI::MPI_Fortran)
+	if(CXX IN_LIST languages)
+		target_link_libraries(${PROJECT_NAME} PUBLIC MPI::MPI_CXX)
+	endif()
+	if(Fortran IN_LIST languages)
+		target_link_libraries(${PROJECT_NAME} PUBLIC MPI::MPI_Fortran)
+	endif()
 endif()
