@@ -1,0 +1,1 @@
+# Sample multiplatform CMake project for the Vala program
